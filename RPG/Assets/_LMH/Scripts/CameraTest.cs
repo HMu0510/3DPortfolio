@@ -7,6 +7,8 @@ using UnityStandardAssets.ImageEffects;
 public class CameraTest : MonoBehaviour
 {
     [SerializeField] private GameObject fl;
+    [SerializeField] private GameObject joy;
+    [SerializeField] private GameObject button;
     SmoothFollow sf;
     VignetteAndChromaticAberration vac;
     public bool start = false;
@@ -28,7 +30,10 @@ public class CameraTest : MonoBehaviour
             if (Vector3.Distance(Camera.main.transform.position,transform.position) < 5)
             {
                 sf.enabled = true;
+                joy.SetActive(true);
+                button.SetActive(true);
                 gameObject.SetActive(false);
+                
             }
         }
     }
