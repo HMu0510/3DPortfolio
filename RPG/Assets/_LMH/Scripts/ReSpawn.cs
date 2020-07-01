@@ -18,7 +18,7 @@ public class ReSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(player.transform.position.y <= -10)
+        if(player.transform.position.y <= -8)
         {
             dis = Vector3.Distance(player.transform.position, spawnPoint[0].transform.position);
             index = 0;

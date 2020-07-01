@@ -22,19 +22,7 @@ public class CameraTest : MonoBehaviour
     {
         if(start)
         {
-            Vector3 dir = transform.position - Camera.main.transform.position;
-            dir.Normalize();
-            Camera.main.transform.forward = dir;
-            Camera.main.transform.Translate(Camera.main.transform.forward* 8 * Time.deltaTime);
-            //vac.m_Intensity
-            if (Vector3.Distance(Camera.main.transform.position,transform.position) < 5)
-            {
-                sf.enabled = true;
-                joy.SetActive(true);
-                button.SetActive(true);
-                gameObject.SetActive(false);
-                
-            }
+            MoveCam();
         }
     }
     public void StartGame()
@@ -42,7 +30,28 @@ public class CameraTest : MonoBehaviour
         {
 
             fl.gameObject.SetActive(true);
-            start = true;
+            StartCoroutine("CameraLightMove");
+
+        }
+    }
+    IEnumerator CameraLightMove()
+    {
+        yield return new WaitForSeconds(0.2f);
+        start = true;
+    }
+    private void MoveCam()
+    {
+        Vector3 dir = transform.position - Camera.main.transform.position;
+        dir.Normalize();
+        Camera.main.transform.forward = dir;
+        Camera.main.transform.Translate(Camera.main.transform.forward * 8 * Time.deltaTime);
+        //vac.m_Intensity
+        if (Vector3.Distance(Camera.main.transform.position, transform.position) < 5)
+        {
+            sf.enabled = true;
+            joy.SetActive(true);
+            button.SetActive(true);
+            gameObject.SetActive(false);
 
         }
     }

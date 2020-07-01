@@ -84,6 +84,7 @@ public class ButtonEvent : MonoBehaviour
         anim.SetBool("MOVE", false);
         anim.SetBool("RUN", false);
         anim.SetBool("IDLE",true);
+
     }
     public void Die()
     {
