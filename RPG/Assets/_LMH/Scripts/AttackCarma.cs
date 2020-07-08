@@ -39,12 +39,15 @@ public class AttackCarma : MonoBehaviour
     {
         if(other.gameObject.CompareTag("ENEMY"))
         {
-            particle.SetActive(true);
-            //other.gameObject.GetComponent<>
+        Debug.Log(other.gameObject.name);
+            //particle.SetActive(true);
+            GameObject pc = Instantiate(particle);
+            pc.transform.position = this.transform.position;
+            other.gameObject.GetComponent<EnemyFSM>().HitDamage(5);
         }
         else
         {
-            Destroy(this.gameObject);
+            //Destroy(gameObject);
         }
 
     }

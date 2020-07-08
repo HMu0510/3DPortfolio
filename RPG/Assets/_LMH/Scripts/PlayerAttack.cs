@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    
-    [SerializeField] private Transform attPos;  //Attack Position
 
+    [SerializeField] private Transform normalAttPos;  //Attack Position
+    [SerializeField] private Transform onePunchAttPos;
     [SerializeField] private GameObject punchEft;
     [SerializeField] private GameObject kickEft;
     [SerializeField] private GameObject upperEft;
     [SerializeField] private GameObject cutEft;
+    [SerializeField] private GameObject chargeEft;
+    [SerializeField] private GameObject shootEft;
     [SerializeField] private GameObject[] fistEft;
+    private GameObject charge;
+    private GameObject shoot;
     public Animator anim;
     //public List<GameObject> PoolObj_Jap;
     //public List<GameObject> PoolObj_Kick;
@@ -20,8 +24,11 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        charge = Instantiate(chargeEft);
+        charge.SetActive(false);
+        shoot = Instantiate(shootEft);
+        shoot.SetActive(false);
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -47,6 +54,7 @@ public class PlayerAttack : MonoBehaviour
                 anim.GetCurrentAnimatorStateInfo(0).IsName("RStraight1"))
             {
                 Punch();
+
             }
             else if (anim.GetCurrentAnimatorStateInfo(0).IsName("LUpper") ||
                     anim.GetCurrentAnimatorStateInfo(0).IsName("RUpper"))
@@ -58,47 +66,70 @@ public class PlayerAttack : MonoBehaviour
                 fistEft[2].SetActive(true);
                 Cut();
             }
-            else if(anim.GetCurrentAnimatorStateInfo(0).IsName("RCut"))
+            else if (anim.GetCurrentAnimatorStateInfo(0).IsName("RCut"))
             {
                 fistEft[3].SetActive(true);
                 Cut();
             }
-            if(anim.GetCurrentAnimatorStateInfo(0).IsName("LHKick") ||
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("LHKick") ||
                 anim.GetCurrentAnimatorStateInfo(0).IsName("RHKick") ||
                 anim.GetCurrentAnimatorStateInfo(0).IsName("SpinKick"))
             {
                 Kick();
             }
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Charge"))
+            {
+                Charge();
+            }
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Shoot"))
+            {
+                Shoot();
+            }
         }
-       
         else
         {
             for (int i = 0; i < fistEft.Length; i++)
             {
                 fistEft[i].SetActive(false);
+                Time.timeScale = 1.0f;
             }
         }
-        
-    }
 
+    }
     public void Punch()
     {
         GameObject punch = Instantiate(punchEft);
-        punch.transform.position = attPos.position;
+        punch.transform.position = normalAttPos.position;
     }
     public void Kick()
     {
         GameObject kick = Instantiate(kickEft);
-        kick.transform.position = attPos.position;
+        kick.transform.position = normalAttPos.position;
     }
     public void Upper()
     {
         GameObject upper = Instantiate(upperEft);
-        upper.transform.position = attPos.position;
+        upper.transform.position = normalAttPos.position;
     }
     public void Cut()
     {
         GameObject cut = Instantiate(cutEft);
-        cut.transform.position = attPos.transform.position;
+        cut.transform.position = normalAttPos.transform.position;
     }
+    public void Charge()
+    {
+        shoot.SetActive(false);
+        charge.SetActive(true);
+        charge.transform.position = onePunchAttPos.transform.position;
+    }
+    public void Shoot()
+    {
+        Time.timeScale = 0.1f;
+        charge.SetActive(false);
+        shoot.SetActive(true);
+        shoot.transform.position = onePunchAttPos.transform.position;
+        shoot.transform.rotation = this.transform.rotation;
+        
+    }
+    //public void
 }

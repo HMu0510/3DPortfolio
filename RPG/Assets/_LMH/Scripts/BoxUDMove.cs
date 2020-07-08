@@ -56,5 +56,22 @@ public class BoxUDMove : MonoBehaviour
             }
         }
     }
-    
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.name == "Player" && this.enabled)
+        {
+            if (collision.transform.tag == "PLAYER")
+            {
+                collision.transform.position = new Vector3(collision.transform.position.x, transform.position.y + 1, collision.transform.position.z);
+                if (upMove)
+                {
+                    //transform.Translate(Vector3.up * Time.deltaTime);
+                }
+                else
+                {
+                    //transform.Translate(Vector3.down * Time.deltaTime);
+                }
+            }
+        }
+    }
 }

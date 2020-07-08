@@ -6,78 +6,128 @@ using UnityEngine;
 public class ButtonEvent : MonoBehaviour
 {
     [SerializeField] private Animator anim;
+
     private void Update()
     {
-        if (!anim.GetBool("DIE"))
+
+        if (Input.GetButtonDown("LPunch"))
         {
-            if (Input.GetButtonDown("LPunch"))
-            {
-                LPunch();
-            }
-            if (Input.GetButtonDown("RPunch"))
-            {
-                RPunch();
-            }
-            //subState check...plz;;
-            if (anim.GetCurrentAnimatorStateInfo(0).IsTag("ATTACK"))
-            {
-                anim.SetBool("ATTACK", true);
-            }
-            else
-            {
-                anim.SetBool("ATTACK", false);
-            }
+            LPunch();
+        }
+        if (Input.GetButtonDown("RPunch"))
+        {
+            RPunch();
+        }
+        if(Input.GetButtonDown("Dodge"))
+        {
+            DODGE();
+        }
+        if(Input.GetButtonDown("Skill1"))
+        {
+            KickCombo();
+        }
+        if(Input.GetButtonDown("Skill2"))
+        {
+            SpinKick();
+        }
+        if (Input.GetButtonDown("Skill3"))
+        {
+            OnePunch();
+        }
+        if(Input.GetButtonDown("Jump"))
+        {
+            JUMP();
+        }
+        //subState check...plz;;
+
+
+    }
+    private void LateUpdate()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsTag("ATTACK"))
+        {
+            anim.SetBool("ATTACK", true);
+        }
+        else
+        {
+            anim.SetBool("ATTACK", false);
+            anim.ResetTrigger("LPUNCH");
+            anim.ResetTrigger("RPUNCH");
+            anim.ResetTrigger("KICK");
+            anim.ResetTrigger("HKICK");
+            anim.ResetTrigger("ONEPUNCH");
+            anim.ResetTrigger("DOWN");
+            anim.ResetTrigger("LAND");
+            //anim.ResetTrigger("KICK");
         }
     }
     public void LPunch()
     {
-        anim.SetTrigger("LPUNCH");
-
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetTrigger("LPUNCH");
+        }
     }
     public void RPunch()
     {
-        anim.SetTrigger("RPUNCH");
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetTrigger("RPUNCH");
+        }
 
     }
-    public void LKICK()
+    public void KickCombo()
     {
-        anim.SetTrigger("LKICK");
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetTrigger("KICK");
+        }
     }
-    public void RKICK()
+    public void SpinKick()
     {
-        anim.SetTrigger("RKICK");
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetTrigger("HKICK");
+        }
     }
-    public void KickSkill()
+    public void OnePunch()
     {
-        anim.SetTrigger("KICK");
-    }
-    public void LMOVE()
-    {
-        anim.SetTrigger("LMOVE");
-    }
-    public void RMOVE()
-    {
-        anim.SetTrigger("RMOVE");
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetTrigger("ONEPUNCH");
+        }
     }
     public void MOVE()
     {
-        anim.SetBool("IDLE", false);
-        anim.SetBool("RUN", false);
-        anim.SetBool("MOVE", true);
-    }
-    public void LRUN()
-    {
-        anim.SetTrigger("LRUN");
-    }
-    public void RRUN()
-    {
-        anim.SetTrigger("RUN");
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetBool("IDLE", false);
+            anim.SetBool("RUN", false);
+            anim.SetBool("MOVE", true);
+        }
     }
     public void RUN()
     {
-        anim.SetBool("IDLE", false);
-        anim.SetBool("MOVE", false);
-        anim.SetBool("RUN", true);
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetBool("IDLE", false);
+            anim.SetBool("MOVE", false);
+            anim.SetBool("RUN", true);
+        }
+    }
+    public void DODGE()
+    {
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dodge"))
+        {
+            anim.SetTrigger("DODGE");
+        }
+    }
+    public void JUMP()
+    {
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Active"))
+        {
+            anim.SetTrigger("JUMP");
+        }
     }
     public void IDLE()
     {

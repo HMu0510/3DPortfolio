@@ -66,11 +66,12 @@ public class EnemyFSM : MonoBehaviour
 
     //애니메이션을 제어하기 위한 애니메이터 컴포넌트
     Animator anim;
-
+    GameObject tEvent;
     //몬스터 일반변수
-    int hp = 100;                   //체력
-    int att = 5;                    //공격력
-    float speed = 5.0f;             //이동속도
+    public int setHp = 100;                   //체력
+    private int hp;
+    public int att = 5;                    //공격력
+    public float speed = 5.0f;             //이동속도
 
     //공격 딜레이
     float attTime = 2.0f;           //2초에 한번 공격
@@ -99,16 +100,15 @@ public class EnemyFSM : MonoBehaviour
         startRotation = transform.rotation;
         //플레이어 위치 찾기
         player = GameObject.Find("Player").transform;
-
+        tEvent = GameObject.Find("Terrain");
         //캐릭터 컨트롤러 찾기
         cc = GetComponent<CharacterController>();
 
         //애니메이터 컴포넌트 찾기
-        anim = GetComponentInChildren<Animator>();
+
 
         nav = GetComponent<NavMeshAgent>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -214,6 +214,9 @@ public class EnemyFSM : MonoBehaviour
             print("상태전환 : Move -> Return");
 
             //애니메이션
+            anim.ResetTrigger("Move");
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("Idle");
             anim.SetTrigger("Return");
         }
         //리턴상태가 아니면 플레이어를 추격해야 한다
@@ -256,7 +259,7 @@ public class EnemyFSM : MonoBehaviour
             print("상태전환 : Move -> Attack");
 
             //애니메이션
-            anim.SetTrigger("Attack");
+            //anim.SetTrigger("Attack");
         }
     }
 
@@ -306,6 +309,9 @@ public class EnemyFSM : MonoBehaviour
             timer = 0.0f;
 
             //애니메이션
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("Idle");
+            anim.ResetTrigger("Return");
             anim.SetTrigger("Move");
         }
     }
@@ -349,6 +355,9 @@ public class EnemyFSM : MonoBehaviour
 
             //애니메이션
             anim.SetTrigger("Idle");
+            anim.ResetTrigger("Move");
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("Return");
         }
     }
 
@@ -403,9 +412,9 @@ public class EnemyFSM : MonoBehaviour
         //피격모션 시간만큼 기다리기
         yield return new WaitForSeconds(1.0f);
         //현재상태를 이동으로 전환
-        state = EnemyState.Move;
-        print("상태전환 : Damaged -> Move");
-        //anim.SetTrigger("Move");
+        state = EnemyState.Idle;
+        print("상태전환 : Damaged -> Idle");
+        anim.SetTrigger("Idle");
     }
 
     //죽음상태 (Any State)
@@ -429,12 +438,14 @@ public class EnemyFSM : MonoBehaviour
     IEnumerator DieProc()
     {
         //캐릭터컨트롤러 비활성화
-        cc.enabled = false;
+        //cc.enabled = false;
 
         //2초후에 자기자신을 제거한다
         yield return new WaitForSeconds(2.0f);
         print("죽음");
-        Destroy(this.gameObject);
+        tEvent.GetComponent<TerrainEvent>().clearEnemyCount++;
+        print(tEvent.GetComponent<TerrainEvent>().clearEnemyCount);
+        this.gameObject.SetActive(false);
     }
 
     //IEnumerator Hit()
@@ -460,5 +471,12 @@ public class EnemyFSM : MonoBehaviour
         //이동가능한 최대 범위
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(startPoint, moveRange);
+    }
+    private void OnEnable()
+    {
+        hp = setHp;
+        anim = GetComponentInChildren<Animator>();
+        state = EnemyState.Idle;
+        anim.SetTrigger("Idle");
     }
 }

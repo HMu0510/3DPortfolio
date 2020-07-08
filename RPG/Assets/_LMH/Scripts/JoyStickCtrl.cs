@@ -40,7 +40,7 @@ public class JoyStickCtrl : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         if (isTouch)
         {
             //if(animator.GetCurrentAnimatorStateInfo(0).fullPathHash != animator.GetHashCode())
-            Debug.Log(animator.GetBool("ATTACK"));
+//            Debug.Log(animator.GetBool("ATTACK"));
             if (!animator.GetBool("ATTACK"))
             {
                 //pc.Move(movePos);

@@ -32,20 +32,18 @@ public class EnemySpawn : MonoBehaviour
         EnemyCheck();
         if (count != maxEnemy && maxCount < maxSpawnCount)
         {
-            Debug.Log("PLAY");
-            count++;
             StartCoroutine("CreateEnemy");
         }
 
     }
     private void EnemyCheck()
     {
+        count = 0;
         Collider[] colls = Physics.OverlapSphere(transform.position, 1.5f*range);
         for(int i = 0; i < colls.Length; i++)
         {
-            if(colls[i].gameObject.name.Contains("EnemyTest"))
+            if(colls[i].gameObject.CompareTag("ENEMY"))
             {
-                Debug.Log("IN");
                 count++;
             }
         }
@@ -53,8 +51,8 @@ public class EnemySpawn : MonoBehaviour
     }
     IEnumerator CreateEnemy()
     {
-        maxCount++;
-        Debug.Log(maxCount);
+
+        //Debug.Log(maxCount);
         yield return new WaitForSeconds(5.0f);
         //enemy setActive true
         //PopQueue();
@@ -72,6 +70,7 @@ public class EnemySpawn : MonoBehaviour
                 enemyBox[i].SetActive(true);
                 enemyBox[i].transform.position = new Vector3(transform.position.x + Random.Range(-range, range),
                        transform.position.y, transform.position.z + Random.Range(-range, range));
+                maxCount++;
                 break;
 
             }

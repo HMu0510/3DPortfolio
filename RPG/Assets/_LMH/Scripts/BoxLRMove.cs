@@ -8,9 +8,11 @@ public class BoxLRMove : MonoBehaviour
     public bool startLeft = true;
     public float length = 5;
     private float pos;
+    Collider[] coll;
     // Start is called before the first frame update
     void Start()
     {
+        
         if (startLeft)
         {
             leftMove = true;
@@ -53,6 +55,21 @@ public class BoxLRMove : MonoBehaviour
             if (transform.position.x >= pos + length)
             {
                 leftMove = true;
+            }
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.name == "Player"&& this.enabled)
+        {
+            Debug.Log("COLLMOVEIN");
+            if (leftMove)
+            {
+                collision.transform.position +=(Vector3.left * Time.deltaTime);
+            }
+            else
+            {
+                collision.transform.position +=(Vector3.right * Time.deltaTime);
             }
         }
     }
