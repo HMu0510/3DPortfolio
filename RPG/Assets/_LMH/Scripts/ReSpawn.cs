@@ -6,13 +6,13 @@ public class ReSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject[] spawnPoint;
     [SerializeField] private GameObject player;
-    public PlayerHit playerHit;
+    public PlayerStatus playerStat;
     private float dis;
     private int index;
     // Start is called before the first frame update
     void Start()
     {
-        playerHit = GetComponent<PlayerHit>();
+        playerStat = GetComponent<PlayerStatus>();
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class ReSpawn : MonoBehaviour
                 }
             }
             player.transform.position = spawnPoint[index].transform.position;
-            playerHit.HitDamageOnce(5);
+            playerStat.HitDamageOnce(5);
         }
     }
 }

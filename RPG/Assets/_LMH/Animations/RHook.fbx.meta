@@ -58,7 +58,23 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: StaminaDown
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 38e9f6dd90790458a94d1ef76638d223,
+          type: 3}
+        floatParameter: 0
+        intParameter: 5
+        messageOptions: 0
+      - time: 0
+        functionName: Punch
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: dd4b4c2866978452baa34dcb25fe0b19,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

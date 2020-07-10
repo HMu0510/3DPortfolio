@@ -14,6 +14,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject chargeEft;
     [SerializeField] private GameObject shootEft;
     [SerializeField] private GameObject[] fistEft;
+    private List<GameObject> punch;
+    private List<GameObject> kick;
+    private GameObject upper;
+    private GameObject cut;
     private GameObject charge;
     private GameObject shoot;
     public Animator anim;
@@ -24,9 +28,24 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        charge = Instantiate(chargeEft);
+        punch = new List<GameObject>();
+        kick = new List<GameObject>();
+        for(int i = 0; i < 3; i++)
+        {
+            GameObject punchSet = Instantiate(punchEft,GameObject.Find("PoolingObject").transform);
+            punchSet.SetActive(false);
+            punch.Add(punchSet);
+            GameObject kickSet = Instantiate(kickEft,GameObject.Find("PoolingObject").transform);
+            kickSet.SetActive(false);
+            kick.Add(kickSet);
+        }
+        upper = Instantiate(upperEft, GameObject.Find("PoolingObject").transform);
+        upper.SetActive(false);
+        cut = Instantiate(cutEft, GameObject.Find("PoolingObject").transform);
+        cut.SetActive(false);
+        charge = Instantiate(chargeEft, GameObject.Find("PoolingObject").transform);
         charge.SetActive(false);
-        shoot = Instantiate(shootEft);
+        shoot = Instantiate(shootEft, GameObject.Find("PoolingObject").transform);
         shoot.SetActive(false);
     }
     // Update is called once per frame
@@ -37,53 +56,6 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 fistEft[i].SetActive(true);
-            }
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("LJap") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("LJap1") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RJap") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RJap1") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("LHook") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("LHook1") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("LHook2") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RHook") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RHook1") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RHook2") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("LStraight") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("LStraight1") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RStraight") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RStraight1"))
-            {
-                Punch();
-
-            }
-            else if (anim.GetCurrentAnimatorStateInfo(0).IsName("LUpper") ||
-                    anim.GetCurrentAnimatorStateInfo(0).IsName("RUpper"))
-            {
-                Upper();
-            }
-            else if (anim.GetCurrentAnimatorStateInfo(0).IsName("LCut"))
-            {
-                fistEft[2].SetActive(true);
-                Cut();
-            }
-            else if (anim.GetCurrentAnimatorStateInfo(0).IsName("RCut"))
-            {
-                fistEft[3].SetActive(true);
-                Cut();
-            }
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("LHKick") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("RHKick") ||
-                anim.GetCurrentAnimatorStateInfo(0).IsName("SpinKick"))
-            {
-                Kick();
-            }
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Charge"))
-            {
-                Charge();
-            }
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Shoot"))
-            {
-                Shoot();
             }
         }
         else
@@ -98,23 +70,39 @@ public class PlayerAttack : MonoBehaviour
     }
     public void Punch()
     {
-        GameObject punch = Instantiate(punchEft);
-        punch.transform.position = normalAttPos.position;
+        for(int i = 0; i < punch.Count; i++)
+        {
+            if(!punch[i].activeSelf)
+            {
+                punch[i].SetActive(true);
+                punch[i].transform.position = normalAttPos.position;
+                break;
+            }
+        }
     }
     public void Kick()
     {
-        GameObject kick = Instantiate(kickEft);
-        kick.transform.position = normalAttPos.position;
+        for (int i = 0; i < kick.Count; i++)
+        {
+            if (!kick[i].activeSelf)
+            {
+                kick[i].SetActive(true);
+                kick[i].transform.position = normalAttPos.position;
+                break;
+            }
+        }
     }
     public void Upper()
     {
-        GameObject upper = Instantiate(upperEft);
+        upper.SetActive(true);
         upper.transform.position = normalAttPos.position;
     }
     public void Cut()
     {
-        GameObject cut = Instantiate(cutEft);
-        cut.transform.position = normalAttPos.transform.position;
+        cut.SetActive(true);
+        cut.transform.position = normalAttPos.position;
+        cut.transform.position = this.transform.position;
+
     }
     public void Charge()
     {
@@ -124,7 +112,7 @@ public class PlayerAttack : MonoBehaviour
     }
     public void Shoot()
     {
-        Time.timeScale = 0.1f;
+        Time.timeScale = 0.3f;
         charge.SetActive(false);
         shoot.SetActive(true);
         shoot.transform.position = onePunchAttPos.transform.position;

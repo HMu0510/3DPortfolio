@@ -24,7 +24,7 @@ public class BossMove : MonoBehaviour
         {
             if(!ground)
             {
-                transform.Translate(Vector3.down * 6 * Time.deltaTime);
+                transform.Translate(Vector3.down * 4 * Time.deltaTime);
             }
         }
     

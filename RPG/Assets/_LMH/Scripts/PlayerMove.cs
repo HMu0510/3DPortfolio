@@ -92,7 +92,10 @@ public class PlayerMove : MonoBehaviour
         }
         dir.y = velrocityY;
         cc.Move(dir *speed* Time.deltaTime);
-        pR.Rotate(rot);
+        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Shoot"))
+        {
+            pR.Rotate(rot);
+        }
     }
 
     public void Move(Vector3 dir,float moveSpeed)
@@ -178,4 +181,6 @@ public class PlayerMove : MonoBehaviour
     {
         cc.SimpleMove(dir * dodgeSpeed);
     }
+
+   
 }
