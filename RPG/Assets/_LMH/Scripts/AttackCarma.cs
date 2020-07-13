@@ -5,9 +5,9 @@ using UnityEngine;
 public class AttackCarma : MonoBehaviour
 {
     public float speed = 2.0f;
-    public float damage = 5.0f;
+    public int damage = 5;
     public float lifeTime = 1.0f;
-    [SerializeField] private GameObject particle;
+    //[SerializeField] private GameObject particle;
     private Vector3 pos;
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,7 @@ public class AttackCarma : MonoBehaviour
         transform.Translate(transform.forward * speed * Time.deltaTime);
         if(Vector3.Distance(pos,transform.position) >= lifeTime)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
     //private void OnCollisionStay(Collision collision)
@@ -33,7 +33,7 @@ public class AttackCarma : MonoBehaviour
     //        //particle.SetActive(true);
     //        Destroy(gameObject, 1.0f);
     //    }
-    //}
+    //} 
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,9 +41,14 @@ public class AttackCarma : MonoBehaviour
         {
         Debug.Log(other.gameObject.name);
             //particle.SetActive(true);
-            GameObject pc = Instantiate(particle);
-            pc.transform.position = this.transform.position;
-            other.gameObject.GetComponent<EnemyFSM>().HitDamage(5);
+            //GameObject pc = Instantiate(particle);
+            //pc.transform.position = this.transform.position;
+            other.gameObject.GetComponent<EnemyFSM>().HitDamage(damage);
+        }
+        else if(other.gameObject.name == "BOSS")
+        {
+            Debug.Log(other.gameObject.name);
+            other.gameObject.GetComponent<BossStatus>().Damaged(damage);
         }
         else
         {

@@ -1134,6 +1134,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0
+        functionName: StraightSound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e3f9a2f5ded2d44399f4f14c6e10a8ae,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

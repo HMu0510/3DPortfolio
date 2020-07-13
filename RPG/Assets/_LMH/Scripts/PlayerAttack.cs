@@ -76,6 +76,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 punch[i].SetActive(true);
                 punch[i].transform.position = normalAttPos.position;
+                punch[i].transform.rotation = this.transform.rotation;
                 break;
             }
         }
@@ -96,6 +97,7 @@ public class PlayerAttack : MonoBehaviour
     {
         upper.SetActive(true);
         upper.transform.position = normalAttPos.position;
+        upper.transform.rotation = this.transform.rotation;
     }
     public void Cut()
     {
